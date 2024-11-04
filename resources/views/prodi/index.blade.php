@@ -17,11 +17,13 @@
                         @endif
                         <div class="ml-auto d-flex">
                             <a href="{{ route('prodi/create') }}" class="btn btn-primary mr-2">Tambah Program Studi</a>
-                            <form action="" method="GET" class="d-flex">
-                                <input type="text" name="search" class="form-control" placeholder="Pencarian">
+                            <form action="{{ route('prodi.index') }}" method="GET" class="d-flex">
+                                <input type="text" name="search" class="form-control" placeholder="Pencarian" value="{{ request('search') }}">
                                 <button class="btn btn-primary ml-2" type="submit">
                                     <i class="bi bi-search"></i>
                                 </button>
+                            </form>
+                            
                             </form>
                         </div>
                     </div>
@@ -58,5 +60,13 @@
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('search-input').addEventListener('input', function() {
+            if (this.value === '') {
+                // Jika kolom pencarian kosong, submit form untuk menampilkan semua data
+                document.getElementById('search-form').submit();
+            }
+        });
+    </script>
     </x-app-layout>
     

@@ -7,11 +7,15 @@ use Illuminate\Http\Request;
 
 class ProdiController extends Controller
 {
-    // Function index untuk menampilkan halaman index prodi
-    public function index()
+    // Function index untuk menampilkan halaman index prodi dengan pencarian
+    public function index(Request $request)
     {
-        $prodis = Prodi::orderBy('id', 'desc')->get(); // Mengambil semua data prodi
-        return view('prodi.index', compact('prodis'));  // Mengarahkan ke view prodi/index.blade.php
+        $search = $request->input('search');
+        $prodis = Prodi::when($search, function ($query, $search) {
+            return $query->where('nama', 'like', "%{$search}%");
+        })->orderBy('id', 'desc')->get();
+
+        return view('prodi.index', compact('prodis'));
     }
 
     // Function untuk menampilkan halaman tambah prodi
